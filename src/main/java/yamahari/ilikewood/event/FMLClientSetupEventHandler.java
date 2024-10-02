@@ -19,11 +19,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import yamahari.ilikewood.ILikeWood;
 import yamahari.ilikewood.client.gui.screen.WoodenCrateScreen;
 import yamahari.ilikewood.client.gui.screen.WoodenSawmillScreen;
-import yamahari.ilikewood.config.ILikeWoodConfig;
 import yamahari.ilikewood.menu.WoodenCrateMenu;
 import yamahari.ilikewood.menu.WoodenSawmillMenu;
 import yamahari.ilikewood.registry.WoodenMenuTypes;
-import yamahari.ilikewood.registry.objecttype.IObjectType;
 import yamahari.ilikewood.registry.objecttype.WoodenBlockType;
 import yamahari.ilikewood.registry.objecttype.WoodenItemType;
 import yamahari.ilikewood.util.Constants;
@@ -36,110 +34,91 @@ public final class FMLClientSetupEventHandler
     @SubscribeEvent
     public static void onFMLClientSetupEvent(final FMLClientSetupEvent event)
     {
-        ILikeWood.BLOCK_REGISTRY
-            .getObjects(Stream.of(WoodenBlockType.POST, WoodenBlockType.STRIPPED_POST).filter(IObjectType::isEnabled))
-            .forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.solid()));
+    ILikeWood.BLOCK_REGISTRY
+        .getObjects(Stream.of(WoodenBlockType.POST, WoodenBlockType.STRIPPED_POST))
+        .forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.solid()));
 
-        ILikeWood.BLOCK_REGISTRY
-            .getObjects(Stream
-                .of(WoodenBlockType.LADDER, WoodenBlockType.TORCH, WoodenBlockType.WALL_TORCH, WoodenBlockType.SCAFFOLDING, WoodenBlockType.SOUL_TORCH,
-                    WoodenBlockType.WALL_SOUL_TORCH
-                )
-                .filter(IObjectType::isEnabled))
-            .forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
+    ILikeWood.BLOCK_REGISTRY
+        .getObjects(Stream
+            .of(WoodenBlockType.LADDER, WoodenBlockType.TORCH, WoodenBlockType.WALL_TORCH, WoodenBlockType.SCAFFOLDING, WoodenBlockType.SOUL_TORCH,
+                WoodenBlockType.WALL_SOUL_TORCH
+            ))
+        .forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout()));
 
-        ILikeWood.BLOCK_REGISTRY
-            .getObjects(Stream
-                .of(WoodenBlockType.CRAFTING_TABLE, WoodenBlockType.SAWMILL, WoodenBlockType.CHAIR, WoodenBlockType.TABLE, WoodenBlockType.STOOL,
-                    WoodenBlockType.SINGLE_DRESSER, WoodenBlockType.LOG_PILE, WoodenBlockType.CAMPFIRE, WoodenBlockType.SOUL_CAMPFIRE, WoodenBlockType.CRATE
-                ).filter(IObjectType::isEnabled)).forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
+    ILikeWood.BLOCK_REGISTRY
+        .getObjects(Stream
+            .of(WoodenBlockType.CRAFTING_TABLE, WoodenBlockType.SAWMILL, WoodenBlockType.CHAIR, WoodenBlockType.TABLE, WoodenBlockType.STOOL,
+                WoodenBlockType.SINGLE_DRESSER, WoodenBlockType.LOG_PILE, WoodenBlockType.CAMPFIRE, WoodenBlockType.SOUL_CAMPFIRE, WoodenBlockType.CRATE
+            )).forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
 
-        if (ILikeWoodConfig.CRAFTING_TABLES_CONFIG.isEnabled())
+    MenuScreens.register((MenuType<? extends CraftingMenu>) WoodenMenuTypes.WOODEN_WORK_BENCH.get(), CraftingScreen::new);
+
+    MenuScreens.register((MenuType<? extends WoodenSawmillMenu>) WoodenMenuTypes.WOODEN_SAWMILL.get(), WoodenSawmillScreen::new);
+
+    MenuScreens.register((MenuType<? extends WoodenCrateMenu>) WoodenMenuTypes.WOODEN_CRATE.get(), WoodenCrateScreen::new);
+
+    ILikeWood.ITEM_REGISTRY.getObjects(WoodenItemType.BOW).forEach(item ->
+    {
+        ItemProperties.register(item, new ResourceLocation("pull"), (stack, level, entity, i) ->
         {
-            MenuScreens.register((MenuType<? extends CraftingMenu>) WoodenMenuTypes.WOODEN_WORK_BENCH.get(), CraftingScreen::new);
-        }
-
-        if (ILikeWoodConfig.SAWMILLS_CONFIG.isEnabled())
-        {
-            MenuScreens.register((MenuType<? extends WoodenSawmillMenu>) WoodenMenuTypes.WOODEN_SAWMILL.get(), WoodenSawmillScreen::new);
-        }
-
-        if (ILikeWoodConfig.CRATE_CONFIG.isEnabled())
-        {
-            MenuScreens.register((MenuType<? extends WoodenCrateMenu>) WoodenMenuTypes.WOODEN_CRATE.get(), WoodenCrateScreen::new);
-        }
-
-        if (ILikeWoodConfig.BOWS_CONFIG.isEnabled())
-        {
-            ILikeWood.ITEM_REGISTRY.getObjects(WoodenItemType.BOW).forEach(item ->
+            if (entity == null)
             {
-                ItemProperties.register(item, new ResourceLocation("pull"), (stack, level, entity, i) ->
-                {
-                    if (entity == null)
-                    {
-                        return 0.0F;
-                    }
-                    else
-                    {
-                        return entity.getUseItem() != stack ? 0.0F : (float) (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F;
-                    }
-                });
-                ItemProperties.register(item, new ResourceLocation("pulling"),
-                    (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F
-                );
-            });
-        }
-
-        if (ILikeWoodConfig.CROSSBOWS_CONFIG.isEnabled())
-        {
-            ILikeWood.ITEM_REGISTRY.getObjects(WoodenItemType.CROSSBOW).forEach(item ->
+                return 0.0F;
+            }
+            else
             {
-                ItemProperties.register(item, new ResourceLocation("pull"), (stack, level, entity, i) ->
-                {
-                    if (entity == null)
-                    {
-                        return 0.0F;
-                    }
-                    else
-                    {
-                        return CrossbowItem.isCharged(stack) ? 0.0F
-                            : (float) (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / (float) CrossbowItem.getChargeDuration(stack);
-                    }
-                });
-                ItemProperties.register(item, new ResourceLocation("pulling"),
-                    (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack && !CrossbowItem.isCharged(stack) ? 1.0F : 0.0F
-                );
-                ItemProperties.register(item, new ResourceLocation("charged"),
-                    (stack, level, entity, i) -> entity != null && CrossbowItem.isCharged(stack) ? 1.0F : 0.0F
-                );
-                ItemProperties.register(item, new ResourceLocation("firework"),
-                    (stack, level, entity, i) -> entity != null && CrossbowItem.isCharged(stack) && CrossbowItem.containsChargedProjectile(stack, Items.FIREWORK_ROCKET)
-                        ? 1.0F : 0.0F
-                );
-            });
-        }
+                return entity.getUseItem() != stack ? 0.0F : (float) (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F;
+            }
+        });
+        ItemProperties.register(item, new ResourceLocation("pulling"),
+            (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F
+        );
+    });
 
-        if (ILikeWoodConfig.FISHING_RODS_CONFIG.isEnabled())
+    ILikeWood.ITEM_REGISTRY.getObjects(WoodenItemType.CROSSBOW).forEach(item ->
+    {
+        ItemProperties.register(item, new ResourceLocation("pull"), (stack, level, entity, i) ->
         {
-            ILikeWood.ITEM_REGISTRY
-                .getObjects(WoodenItemType.FISHING_ROD)
-                .forEach(item -> ItemProperties.register(item, new ResourceLocation("cast"), (stack, level, entity, i) ->
+            if (entity == null)
+            {
+                return 0.0F;
+            }
+            else
+            {
+                return CrossbowItem.isCharged(stack) ? 0.0F
+                    : (float) (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / (float) CrossbowItem.getChargeDuration(stack);
+            }
+        });
+        ItemProperties.register(item, new ResourceLocation("pulling"),
+            (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack && !CrossbowItem.isCharged(stack) ? 1.0F : 0.0F
+        );
+        ItemProperties.register(item, new ResourceLocation("charged"),
+            (stack, level, entity, i) -> entity != null && CrossbowItem.isCharged(stack) ? 1.0F : 0.0F
+        );
+        ItemProperties.register(item, new ResourceLocation("firework"),
+            (stack, level, entity, i) -> entity != null && CrossbowItem.isCharged(stack) && CrossbowItem.containsChargedProjectile(stack, Items.FIREWORK_ROCKET)
+                ? 1.0F : 0.0F
+        );
+    });
+
+    ILikeWood.ITEM_REGISTRY
+        .getObjects(WoodenItemType.FISHING_ROD)
+        .forEach(item -> ItemProperties.register(item, new ResourceLocation("cast"), (stack, level, entity, i) ->
+        {
+            if (entity == null)
+            {
+                return 0.0F;
+            }
+            else
+            {
+                boolean flag = entity.getMainHandItem() == stack;
+                boolean flag1 = entity.getOffhandItem() == stack;
+                if (entity.getMainHandItem().getItem() instanceof FishingRodItem)
                 {
-                    if (entity == null)
-                    {
-                        return 0.0F;
-                    }
-                    else
-                    {
-                        boolean flag = entity.getMainHandItem() == stack;
-                        boolean flag1 = entity.getOffhandItem() == stack;
-                        if (entity.getMainHandItem().getItem() instanceof FishingRodItem)
-                        {
-                            flag1 = false;
-                        }
-                        return (flag || flag1) && entity instanceof Player && ((Player) entity).fishing != null ? 1.0F : 0.0F;
-                    }
-                }));
-        }
+                    flag1 = false;
+                }
+                return (flag || flag1) && entity instanceof Player && ((Player) entity).fishing != null ? 1.0F : 0.0F;
+            }
+        }));
     }
 }

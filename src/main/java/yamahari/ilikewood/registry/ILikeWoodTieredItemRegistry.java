@@ -90,7 +90,7 @@ public final class ILikeWoodTieredItemRegistry implements IWoodenTieredItemRegis
     }
 
     private void registerTieredItems(final WoodenTieredItemType tieredItemType, final BiFunction<IWoodenItemTier, IWoodType, RegistryObject<Item>> function) {
-        if (tieredItemType.isEnabled()) {
+        //if (tieredItemType.isEnabled()) {
             final Map<IWoodType, Map<IWoodenItemTier, RegistryObject<Item>>> tieredRegistryObjects = new HashMap<>();
             ILikeWood.WOOD_TYPE_REGISTRY.getWoodTypes().filter(woodType -> woodType.getTieredItemTypes().contains(tieredItemType)).forEach(woodType -> {
                 final Map<IWoodenItemTier, RegistryObject<Item>> registryObjects = new HashMap<>();
@@ -100,7 +100,7 @@ public final class ILikeWoodTieredItemRegistry implements IWoodenTieredItemRegis
                 tieredRegistryObjects.put(woodType, registryObjects);
             });
             this.tieredRegistryObjects.put(tieredItemType, Collections.unmodifiableMap(tieredRegistryObjects));
-        }
+        //}
     }
 
     private RegistryObject<Item> register(final IWoodenItemTier itemTier, final IWoodType woodType, final WoodenTieredItemType tieredItemType, final Supplier<? extends Item> supplier) {

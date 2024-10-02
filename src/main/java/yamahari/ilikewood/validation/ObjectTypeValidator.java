@@ -86,23 +86,23 @@ public final class ObjectTypeValidator
     {
         final var dependencies = getDependencies(objectType);
 
-        if (objectType.isEnabled())
-        {
+        //if (objectType.isEnabled())
+        //{
             return dependencies.stream().map(ds ->
             {
                 var success = true;
                 for (final var d : ds)
                 {
-                    if (!d.isEnabled())
-                    {
-                        success = false;
-                        builder.append(String.format("Dependency \"%s\" of object type \"%s\" was not satisfied.", d.getName(), objectType.getName()));
-                        builder.append(System.lineSeparator());
-                    }
+                    //if (!d.isEnabled())
+                    //{
+                    //    success = false;
+                    //    builder.append(String.format("Dependency \"%s\" of object type \"%s\" was not satisfied.", d.getName(), objectType.getName()));
+                    //    builder.append(System.lineSeparator());
+                    //}
                 }
                 return success;
             }).reduce(false, Boolean::logicalOr);
-        }
-        return true;
+        //}
+        //return true;
     }
 }

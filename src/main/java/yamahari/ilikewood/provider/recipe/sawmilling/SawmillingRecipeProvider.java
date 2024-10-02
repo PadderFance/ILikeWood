@@ -46,6 +46,7 @@ public final class SawmillingRecipeProvider extends RecipeProvider {
             final var panelsPath = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(panels)).getPath();
             final RecipeBuilder builder = sawmillingRecipe(Ingredient.of(block), panels, count
             ).unlockedBy(String.format("has_%s", blockPath), has(block));
+
             ConditionalRecipe.builder()
                 .addCondition(new ConfigCondition(ILikeWoodConfig.PANELS_CONFIG.name()))
                 .addRecipe(builder::save).build(consumer, new ResourceLocation(Constants.MOD_ID, Util.toRegistryName(panelsPath, "from", blockPath, "sawmilling")));

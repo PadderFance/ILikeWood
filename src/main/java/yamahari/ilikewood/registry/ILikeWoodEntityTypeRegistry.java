@@ -5,7 +5,6 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import yamahari.ilikewood.ILikeWood;
-import yamahari.ilikewood.config.ILikeWoodConfig;
 import yamahari.ilikewood.entity.WoodenChairEntity;
 import yamahari.ilikewood.entity.WoodenItemFrameEntity;
 import yamahari.ilikewood.entity.WoodenPaintingEntity;
@@ -86,20 +85,11 @@ public final class ILikeWoodEntityTypeRegistry
     @Override
     protected void register()
     {
-        if (ILikeWoodConfig.ITEM_FRAMES_CONFIG.isEnabled())
-        {
-            registerItemFrameEntityTypes();
-        }
+        registerItemFrameEntityTypes();
 
-        if (ILikeWoodConfig.CHAIRS_CONFIG.isEnabled() || ILikeWoodConfig.STOOLS_CONFIG.isEnabled())
-        {
-            registerChairEntityTypes();
-        }
+        registerChairEntityTypes();
 
-        if (ILikeWoodConfig.PAINTING_CONFIG.isEnabled())
-        {
-            registerPaintingEntityTypes();
-        }
+        registerPaintingEntityTypes();
     }
 
     @Override

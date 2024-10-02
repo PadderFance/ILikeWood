@@ -40,13 +40,13 @@ public final class ILikeWoodItemRegistry extends AbstractILikeWoodObjectRegistry
     }
 
     private void registerItems(final WoodenItemType itemType, final Function<IWoodType, RegistryObject<Item>> function) {
-        if (itemType.isEnabled()) {
+        //if (itemType.isEnabled()) {
             final Map<IWoodType, RegistryObject<Item>> items = new HashMap<>();
             ILikeWood.WOOD_TYPE_REGISTRY.getWoodTypes()
                 .filter(woodType -> woodType.getItemTypes().contains(itemType))
                 .forEach(woodType -> items.put(woodType, function.apply(woodType)));
             this.registryObjects.put(itemType, Collections.unmodifiableMap(items));
-        }
+        //}
     }
 
     private RegistryObject<Item> register(final IWoodType woodType, final WoodenItemType itemType, final Supplier<? extends Item> supplier) {

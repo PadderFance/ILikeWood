@@ -4,7 +4,6 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import yamahari.ilikewood.ILikeWood;
-import yamahari.ilikewood.config.ILikeWoodConfig;
 import yamahari.ilikewood.registry.objecttype.WoodenBlockType;
 import yamahari.ilikewood.registry.woodtype.IWoodType;
 import yamahari.ilikewood.util.Constants;
@@ -22,11 +21,9 @@ public final class ILikeWoodSheets {
     static {
         final Map<IWoodType, Map<ChestType, Material>> chestMaterials = new HashMap<>();
 
-        if (ILikeWoodConfig.CHESTS_CONFIG.isEnabled()) {
-            ILikeWood.WOOD_TYPE_REGISTRY.getWoodTypes()
-                .filter(woodType -> woodType.getBlockTypes().contains(WoodenBlockType.CHEST))
-                .forEach(woodType -> chestMaterials.put(woodType, makeChestMaterials(woodType)));
-        }
+        ILikeWood.WOOD_TYPE_REGISTRY.getWoodTypes()
+            .filter(woodType -> woodType.getBlockTypes().contains(WoodenBlockType.CHEST))
+            .forEach(woodType -> chestMaterials.put(woodType, makeChestMaterials(woodType)));
 
         CHEST_MATERIALS = Collections.unmodifiableMap(chestMaterials);
     }

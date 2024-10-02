@@ -58,13 +58,13 @@ public final class ILikeWoodBlockItemRegistry extends AbstractILikeWoodObjectReg
     }
 
     private void registerBlockItems(final WoodenBlockType blockType, final Function<IWoodType, RegistryObject<Item>> function) {
-        if (blockType.isEnabled()) {
+        //if (blockType.isEnabled()) {
             final Map<IWoodType, RegistryObject<Item>> blockItems = new HashMap<>();
             ILikeWood.WOOD_TYPE_REGISTRY.getWoodTypes()
                 .filter(woodType -> woodType.getBlockTypes().contains(blockType))
                 .forEach(woodType -> blockItems.put(woodType, function.apply(woodType)));
             this.registryObjects.put(blockType, Collections.unmodifiableMap(blockItems));
-        }
+        //}
     }
 
     private RegistryObject<Item> registerBlockItem(final IWoodType woodType, final WoodenBlockType blockType, final Item.Properties properties) {

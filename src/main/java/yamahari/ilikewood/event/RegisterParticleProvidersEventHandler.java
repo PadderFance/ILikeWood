@@ -7,7 +7,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import yamahari.ilikewood.config.ILikeWoodConfig;
 import yamahari.ilikewood.registry.WoodenParticleTypes;
 import yamahari.ilikewood.util.Constants;
 
@@ -15,12 +14,10 @@ import yamahari.ilikewood.util.Constants;
 public class RegisterParticleProvidersEventHandler {
     @SubscribeEvent
     public static void onRegisterParticleProviders(final RegisterParticleProvidersEvent event) {
-        if (ILikeWoodConfig.CAMPFIRE_CONFIG.isEnabled()) {
-            for (final DyeColor dyeColor : DyeColor.values()) {
-                event.registerSpriteSet(WoodenParticleTypes.COLORED_CAMPFIRE_COSY_SMOKE.get(dyeColor).get(), CampfireSmokeParticle.CosyProvider::new);
-                event.registerSpriteSet(WoodenParticleTypes.COLORED_CAMPFIRE_SIGNAL_SMOKE.get(dyeColor).get(), CampfireSmokeParticle.SignalProvider::new);
-                event.registerSpriteSet(WoodenParticleTypes.COLORED_LAVA.get(dyeColor).get(), LavaParticle.Provider::new);
-            }
+        for (final DyeColor dyeColor : DyeColor.values()) {
+            event.registerSpriteSet(WoodenParticleTypes.COLORED_CAMPFIRE_COSY_SMOKE.get(dyeColor).get(), CampfireSmokeParticle.CosyProvider::new);
+            event.registerSpriteSet(WoodenParticleTypes.COLORED_CAMPFIRE_SIGNAL_SMOKE.get(dyeColor).get(), CampfireSmokeParticle.SignalProvider::new);
+            event.registerSpriteSet(WoodenParticleTypes.COLORED_LAVA.get(dyeColor).get(), LavaParticle.Provider::new);
         }
     }
 }

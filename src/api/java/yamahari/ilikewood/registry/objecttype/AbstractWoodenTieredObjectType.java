@@ -1,31 +1,25 @@
 package yamahari.ilikewood.registry.objecttype;
 
-import yamahari.ilikewood.config.ILikeWoodConfig;
-
-public abstract class AbstractWoodenTieredObjectType<T> implements IObjectType
+public abstract class AbstractWoodenTieredObjectType implements IObjectType
 {
     private final String name;
     private final String namePlural;
-    private final ILikeWoodConfig config;
 
-    public AbstractWoodenTieredObjectType(final String name, final String namePlural, final ILikeWoodConfig config) {
+    public AbstractWoodenTieredObjectType(final String name, final String namePlural) {
         this.name = name;
         this.namePlural = namePlural;
-        this.config = config;
     }
 
     @Override
     public final boolean equals(final Object o) {
-        if (this == o)
-        {
+        if (this == o) {
             return true;
         }
-        if (o == null || this.getClass() != o.getClass())
-        {
+        if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
 
-        final AbstractWoodenTieredObjectType<?> that = (AbstractWoodenTieredObjectType<?>) o;
+        final AbstractWoodenTieredObjectType that = (AbstractWoodenTieredObjectType) o;
 
         return this.name.equals(that.name);
     }
@@ -43,10 +37,5 @@ public abstract class AbstractWoodenTieredObjectType<T> implements IObjectType
     @Override
     public String getNamePlural() {
         return this.namePlural;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.config.isEnabled();
     }
 }

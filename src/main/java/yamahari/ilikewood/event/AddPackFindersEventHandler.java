@@ -27,7 +27,7 @@ public final class AddPackFindersEventHandler {
             final var modId = plugin.getModId();
             final var pluginModFile = ModList.get().getModFileById(plugin.getPluginModId()).getFile();
             ILikeWoodConfig.getAll().forEach(config -> {
-                if (config.isEnabled()) {
+                //if (config.isEnabled()) {
                     final var resourcePath = pluginModFile.findResource(Util.toPath(Util.toRegistryName(Constants.MOD_ID, "resources"), config.name()));
                     final var pack = new PathPackResources(pluginModFile.getFileName() + ":" + resourcePath, true, resourcePath);
                     final PackMetadataSection metaDataSection;
@@ -48,7 +48,7 @@ public final class AddPackFindersEventHandler {
                             true,
                             PackSource.BUILT_IN)));
                     }
-                }
+                //}
             });
         }
     }

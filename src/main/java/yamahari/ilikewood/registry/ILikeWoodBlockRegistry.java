@@ -11,7 +11,6 @@ import yamahari.ilikewood.block.post.WoodenPostBlock;
 import yamahari.ilikewood.block.post.WoodenStrippedPostBlock;
 import yamahari.ilikewood.block.torch.WoodenTorchBlock;
 import yamahari.ilikewood.block.torch.WoodenWallTorchBlock;
-import yamahari.ilikewood.config.ILikeWoodConfig;
 import yamahari.ilikewood.registry.objecttype.WoodenBlockType;
 import yamahari.ilikewood.registry.woodtype.IWoodType;
 import yamahari.ilikewood.util.Constants;
@@ -63,27 +62,24 @@ public final class ILikeWoodBlockRegistry
         this.registerBlocks(WoodenBlockType.SOUL_CAMPFIRE, this::registerSoulCampfireBlock);
         this.registerBlocks(WoodenBlockType.CRATE, this::registerCrateBlock);
 
-        if (ILikeWoodConfig.BEDS_CONFIG.isEnabled())
-        {
-            final Map<WoodenBlockType, DyeColor> colors = new HashMap<>();
-            colors.put(WoodenBlockType.WHITE_BED, DyeColor.WHITE);
-            colors.put(WoodenBlockType.ORANGE_BED, DyeColor.ORANGE);
-            colors.put(WoodenBlockType.MAGENTA_BED, DyeColor.MAGENTA);
-            colors.put(WoodenBlockType.LIGHT_BLUE_BED, DyeColor.LIGHT_BLUE);
-            colors.put(WoodenBlockType.YELLOW_BED, DyeColor.YELLOW);
-            colors.put(WoodenBlockType.LIME_BED, DyeColor.LIME);
-            colors.put(WoodenBlockType.PINK_BED, DyeColor.PINK);
-            colors.put(WoodenBlockType.GRAY_BED, DyeColor.GRAY);
-            colors.put(WoodenBlockType.LIGHT_GRAY_BED, DyeColor.LIGHT_GRAY);
-            colors.put(WoodenBlockType.CYAN_BED, DyeColor.CYAN);
-            colors.put(WoodenBlockType.PURPLE_BED, DyeColor.PURPLE);
-            colors.put(WoodenBlockType.BLUE_BED, DyeColor.BLUE);
-            colors.put(WoodenBlockType.BROWN_BED, DyeColor.BROWN);
-            colors.put(WoodenBlockType.GREEN_BED, DyeColor.GREEN);
-            colors.put(WoodenBlockType.RED_BED, DyeColor.RED);
-            colors.put(WoodenBlockType.BLACK_BED, DyeColor.BLACK);
-            WoodenBlockType.getBeds().forEach(blockType -> this.registerBlocks(blockType, woodType -> this.registerBedBlock(woodType, colors.get(blockType))));
-        }
+        final Map<WoodenBlockType, DyeColor> colors = new HashMap<>();
+        colors.put(WoodenBlockType.WHITE_BED, DyeColor.WHITE);
+        colors.put(WoodenBlockType.ORANGE_BED, DyeColor.ORANGE);
+        colors.put(WoodenBlockType.MAGENTA_BED, DyeColor.MAGENTA);
+        colors.put(WoodenBlockType.LIGHT_BLUE_BED, DyeColor.LIGHT_BLUE);
+        colors.put(WoodenBlockType.YELLOW_BED, DyeColor.YELLOW);
+        colors.put(WoodenBlockType.LIME_BED, DyeColor.LIME);
+        colors.put(WoodenBlockType.PINK_BED, DyeColor.PINK);
+        colors.put(WoodenBlockType.GRAY_BED, DyeColor.GRAY);
+        colors.put(WoodenBlockType.LIGHT_GRAY_BED, DyeColor.LIGHT_GRAY);
+        colors.put(WoodenBlockType.CYAN_BED, DyeColor.CYAN);
+        colors.put(WoodenBlockType.PURPLE_BED, DyeColor.PURPLE);
+        colors.put(WoodenBlockType.BLUE_BED, DyeColor.BLUE);
+        colors.put(WoodenBlockType.BROWN_BED, DyeColor.BROWN);
+        colors.put(WoodenBlockType.GREEN_BED, DyeColor.GREEN);
+        colors.put(WoodenBlockType.RED_BED, DyeColor.RED);
+        colors.put(WoodenBlockType.BLACK_BED, DyeColor.BLACK);
+        WoodenBlockType.getBeds().forEach(blockType -> this.registerBlocks(blockType, woodType -> this.registerBedBlock(woodType, colors.get(blockType))));
     }
 
     @Override
@@ -100,15 +96,15 @@ public final class ILikeWoodBlockRegistry
         final Function<IWoodType, RegistryObject<Block>> function
     )
     {
-        if (blockType.isEnabled())
-        {
+        //if (blockType.isEnabled())
+        //{
             final Map<IWoodType, RegistryObject<Block>> blocks = new HashMap<>();
             ILikeWood.WOOD_TYPE_REGISTRY
                 .getWoodTypes()
                 .filter(woodType -> woodType.getBlockTypes().contains(blockType))
                 .forEach(woodType -> blocks.put(woodType, function.apply(woodType)));
             this.registryObjects.put(blockType, Collections.unmodifiableMap(blocks));
-        }
+        //}
     }
 
     private RegistryObject<Block> register(

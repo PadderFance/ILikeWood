@@ -6,7 +6,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import yamahari.ilikewood.ILikeWood;
 import yamahari.ilikewood.client.blockentity.*;
-import yamahari.ilikewood.config.ILikeWoodConfig;
 import yamahari.ilikewood.registry.objecttype.WoodenBlockType;
 import yamahari.ilikewood.util.Constants;
 
@@ -18,45 +17,30 @@ public final class ILikeWoodBlockEntityTypeRegistry
 
     static
     {
-        if (ILikeWoodConfig.BARRELS_CONFIG.isEnabled())
-        {
-            WoodenBlockEntityTypes.WOODEN_BARREL = REGISTRY.register(
-                "wooden_barrel", () -> BlockEntityType.Builder
-                    .of(WoodenBarrelBlockEntity::new, ILikeWood.BLOCK_REGISTRY.getObjects(WoodenBlockType.BARREL).toArray(Block[]::new))
-                    .build(null));
-        }
+        WoodenBlockEntityTypes.WOODEN_BARREL = REGISTRY.register(
+            "wooden_barrel", () -> BlockEntityType.Builder
+                .of(WoodenBarrelBlockEntity::new, ILikeWood.BLOCK_REGISTRY.getObjects(WoodenBlockType.BARREL).toArray(Block[]::new))
+                .build(null));
 
-        if (ILikeWoodConfig.CHESTS_CONFIG.isEnabled())
-        {
-            WoodenBlockEntityTypes.WOODEN_CHEST = REGISTRY.register(
-                "wooden_chest", () -> BlockEntityType.Builder
-                    .of(WoodenChestBlockEntity::new, ILikeWood.BLOCK_REGISTRY.getObjects(WoodenBlockType.CHEST).toArray(Block[]::new))
-                    .build(null));
-        }
+        WoodenBlockEntityTypes.WOODEN_CHEST = REGISTRY.register(
+            "wooden_chest", () -> BlockEntityType.Builder
+                .of(WoodenChestBlockEntity::new, ILikeWood.BLOCK_REGISTRY.getObjects(WoodenBlockType.CHEST).toArray(Block[]::new))
+                .build(null));
 
-        if (ILikeWoodConfig.LECTERNS_CONFIG.isEnabled())
-        {
-            WoodenBlockEntityTypes.WOODEN_LECTERN = REGISTRY.register(
-                "wooden_lectern", () -> BlockEntityType.Builder
-                    .of(WoodenLecternBlockEntity::new, ILikeWood.BLOCK_REGISTRY.getObjects(WoodenBlockType.LECTERN).toArray(Block[]::new))
-                    .build(null));
-        }
+        WoodenBlockEntityTypes.WOODEN_LECTERN = REGISTRY.register(
+            "wooden_lectern", () -> BlockEntityType.Builder
+                .of(WoodenLecternBlockEntity::new, ILikeWood.BLOCK_REGISTRY.getObjects(WoodenBlockType.LECTERN).toArray(Block[]::new))
+                .build(null));
 
-        if (ILikeWoodConfig.CAMPFIRE_CONFIG.isEnabled())
-        {
-            WoodenBlockEntityTypes.WOODEN_CAMPFIRE = REGISTRY.register("wooden_campfire", () -> BlockEntityType.Builder.of(
-                WoodenCampfireBlockEntity::new,
-                ILikeWood.BLOCK_REGISTRY.getObjects(Stream.of(WoodenBlockType.CAMPFIRE, WoodenBlockType.SOUL_CAMPFIRE)).toArray(Block[]::new)
-            ).build(null));
-        }
+        WoodenBlockEntityTypes.WOODEN_CAMPFIRE = REGISTRY.register("wooden_campfire", () -> BlockEntityType.Builder.of(
+            WoodenCampfireBlockEntity::new,
+            ILikeWood.BLOCK_REGISTRY.getObjects(Stream.of(WoodenBlockType.CAMPFIRE, WoodenBlockType.SOUL_CAMPFIRE)).toArray(Block[]::new)
+        ).build(null));
 
-        if (ILikeWoodConfig.CRATE_CONFIG.isEnabled())
-        {
-            WoodenBlockEntityTypes.WOODEN_CRATE = REGISTRY.register(
-                "wooden_crate", () -> BlockEntityType.Builder
-                    .of(WoodenCrateBlockEntity::new, ILikeWood.BLOCK_REGISTRY.getObjects(WoodenBlockType.CRATE).toArray(Block[]::new))
-                    .build(null));
-        }
+        WoodenBlockEntityTypes.WOODEN_CRATE = REGISTRY.register(
+            "wooden_crate", () -> BlockEntityType.Builder
+                .of(WoodenCrateBlockEntity::new, ILikeWood.BLOCK_REGISTRY.getObjects(WoodenBlockType.CRATE).toArray(Block[]::new))
+                .build(null));
     }
 
     private ILikeWoodBlockEntityTypeRegistry()

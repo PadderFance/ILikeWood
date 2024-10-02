@@ -14,11 +14,9 @@ public final class BuildCreativeModeTabContentsEventHandler {
     @SubscribeEvent
     public static void onBuildCreativeModeTabContents(final BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == ILikeWoodCreativeModeTabs.CREATIVE_MODE_TAB.getKey()) {
-            ILikeWood.BLOCK_REGISTRY.getObjects(WoodenBlockType.getAll().filter(AbstractWoodenObjectType::isEnabled)).forEach(event::accept);
-            ILikeWood.ITEM_REGISTRY.getObjects(WoodenItemType.getAll().filter(AbstractWoodenObjectType::isEnabled)).forEach(event::accept);
-            WoodenTieredItemType.getAll()
-                .filter(AbstractWoodenTieredObjectType::isEnabled)
-                .forEach(woodenTieredItemType -> ILikeWood.TIERED_ITEM_REGISTRY.getObjects(woodenTieredItemType).forEach(event::accept));
+            ILikeWood.BLOCK_REGISTRY.getObjects(WoodenBlockType.getAll()).forEach(event::accept);
+            ILikeWood.ITEM_REGISTRY.getObjects(WoodenItemType.getAll()).forEach(event::accept);
+            WoodenTieredItemType.getAll().forEach(woodenTieredItemType -> ILikeWood.TIERED_ITEM_REGISTRY.getObjects(woodenTieredItemType).forEach(event::accept));
         }
     }
 }
